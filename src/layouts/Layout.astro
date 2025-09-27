@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions'
 import { getLayoutProps, type LayoutProps } from '~/utils'
 
 type Props = LayoutProps<{ title?: string }>
@@ -13,9 +14,10 @@ const { title = 'Portfolio' } = getLayoutProps(Astro.props)
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body>
     <a href="/test-portfolio/">Home</a>
-    <slot />
+    <div transition:animate="slide"><slot /></div>
   </body>
 </html>

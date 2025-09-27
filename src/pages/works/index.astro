@@ -15,7 +15,7 @@ export const posts = (await getCollection('works')).sort(
   <ul>
     {
       posts.map((post) => (
-        <li>
+        <li transition:name={`work ${post.id} title`}>
           <a href={`/test-portfolio/works/${post.id}/`}>{post.data.title}</a>
         </li>
       ))
