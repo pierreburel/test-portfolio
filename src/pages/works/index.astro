@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '~/layouts/Layout.astro'
+
+export const posts = (await getCollection('works')).sort(
+  (a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
+)
+---
+
+<Layout title="Works">
+  <h1>My Works</h1>
+
+  <p>This is an Astro page, with dynamically generated list of works:</p>
+
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/test-portfolio/works/${post.id}/`}>{post.data.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

@@ -1,0 +1,48 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content'
+import Layout from '~/layouts/Layout.astro'
+import { posts } from './index.astro'
+
+export async function getStaticPaths() {
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      prev: posts[index - 1] ?? null,
+      next: posts[index + 1] ?? null,
+    },
+  }))
+}
+
+type Props = {
+  post: CollectionEntry<'works'>
+  prev: CollectionEntry<'works'> | null
+  next: CollectionEntry<'works'> | null
+}
+
+const { post, prev, next } = Astro.props
+
+const { Content } = await render(post)
+---
+
+<Layout title={`Works: ${post.data.title}`}>
+  <Content />
+
+  {
+    post.data.url && (
+      <a href={post.data.url} target="_blank" rel="noopener noreferrer">
+        Visit {post.data.url}
+      </a>
+    )
+  }
+
+  {
+    (
+      <nav>
+        {prev && <a href={`/test-portfolio/works/${prev.id}`}>← {prev.data.title}</a>}
+        <a href="/test-portfolio/works">Back to list</a>
+        {next && <a href={`/test-portfolio/works/${next.id}`}>{next.data.title} →</a>}
+      </nav>
+    )
+  }
+</Layout>
